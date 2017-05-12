@@ -1,7 +1,7 @@
 {
-  "name": "deep-equal",
-  "version": "1.0.1",
-  "description": "node's assert.deepEqual algorithm",
+  "name": "deep-close-to",
+  "version": "1.0.0",
+  "description": "out of the box assert.deepCloseTo with configurable comparator",
   "main": "index.js",
   "directories": {
     "lib": ".",
@@ -16,18 +16,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/substack/node-deep-equal.git"
+    "url": "git@github.com:LemonPi/node-deep-equal.git"
   },
   "keywords": [
-    "equality",
-    "equal",
+    "closeTo",
+    "node",
     "compare"
   ],
-  "author": {
-    "name": "James Halliday",
-    "email": "mail@substack.net",
-    "url": "http://substack.net"
-  },
+  "contributors": [
+    {
+      "name": "James Halliday",
+      "email": "mail@substack.net",
+      "url": "http://substack.net"
+    },
+    {
+      "name": "Johnson Zhong",
+      "email": "johnsonzhong@hotmail.ca",
+      "url": "http://johnsonzhong.me"
+    }
+  ],
   "license": "MIT",
   "testling": {
     "files": "test/*.js",
