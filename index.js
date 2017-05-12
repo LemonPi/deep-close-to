@@ -2,19 +2,38 @@ var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
 
-var deepEqual = module.exports = function (actual, expected, opts) {
-    if (!opts) opts = {};
+var floatEpsilon = 0.0000001;
+
+function closeTo(actual, expected, delta) {
+    delta = delta || floatEpsilon;
+    return Math.abs(actual - expected) < delta;
+}
+
+var deepCloseTo = module.exports = function (actual, expected, opts) {
+    opts = Object.assign({}, opts, {comp: closeTo});
     // 7.1. All identical values are equivalent, as determined by ===.
     if (actual === expected) {
         return true;
 
     } else if (actual instanceof Date && expected instanceof Date) {
-        return actual.getTime() === expected.getTime();
+        return opts.comp(actual, expected);
 
         // 7.3. Other pairs that do not both pass typeof value == 'object',
         // equivalence is determined by ==.
-    } else if (!actual || !expected || typeof actual != 'object' && typeof expected != 'object') {
-        return opts.strict ? actual === expected : actual == expected;
+    } else if (!actual || !expected || typeof actual !== 'object' && typeof expected !== 'object') {
+        if (opts.strict) {
+            if (!actual && !expected) {
+                return actual === expected;
+            }
+
+            if (typeof actual !== typeof expected) {
+                return false;
+            }
+        }
+        if (!actual && !expected) {
+            return actual == expected;
+        }
+        return opts.comp(actual, expected);
 
         // 7.4. For all other Object pairs, including Array objects, equivalence is
         // determined by having the same number of owned properties (as verified
@@ -54,7 +73,7 @@ function objEquiv(a, b, opts) {
         }
         a = pSlice.call(a);
         b = pSlice.call(b);
-        return deepEqual(a, b, opts);
+        return deepCloseTo(a, b, opts);
     }
     if (isBuffer(a)) {
         if (!isBuffer(b)) {
@@ -88,7 +107,7 @@ function objEquiv(a, b, opts) {
     //~~~possibly expensive deep test
     for (i = ka.length - 1; i >= 0; i--) {
         key = ka[i];
-        if (!deepEqual(a[key], b[key], opts)) return false;
+        if (!deepCloseTo(a[key], b[key], opts)) return false;
     }
     return typeof a === typeof b;
 }
