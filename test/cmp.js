@@ -111,3 +111,12 @@ test('float values', function (t) {
     t.ok(equal({a: 1.000000000001, b:{c:0.52}}, {a: 1, b:{c:0.52000001}}));
     t.end();
 });
+
+function closeTo(delta, actual, expected) {
+    return Math.abs(actual - expected) < delta;
+}
+test('tolerances', function (t) {
+    t.ok(equal(1.0001, 1, {comp: closeTo.bind(null, 0.0001)}));
+    t.notOk(equal(1.0001, 1, {comp: closeTo.bind(null, 0.00001)}));
+    t.end();
+});

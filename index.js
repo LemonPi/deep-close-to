@@ -10,7 +10,7 @@ function closeTo(actual, expected, delta) {
 }
 
 var deepCloseTo = module.exports = function (actual, expected, opts) {
-    opts = Object.assign({}, opts, {comp: closeTo});
+    opts = Object.assign({}, {comp: closeTo}, opts);
     // 7.1. All identical values are equivalent, as determined by ===.
     if (actual === expected) {
         return true;
