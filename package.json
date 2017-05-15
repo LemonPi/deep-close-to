@@ -1,6 +1,6 @@
 {
   "name": "deep-close-to",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "out of the box assert.deepCloseTo with configurable comparator",
   "main": "index.js",
   "directories": {
